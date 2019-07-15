@@ -1,15 +1,17 @@
-import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToOne, ManyToMany, JoinColumn, JoinTable} from "typeorm";
 import {Photo} from "./Photo";
+import {Group} from "./Group";
 
 @Entity()
 export class User {
 
-    constructor(id, firstName, lastName, age, photo) {
+    constructor(id, firstName, lastName, age, photo, groups) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;
         this.photo = photo;
+        this.groups = groups;
     }
 
 
@@ -28,5 +30,9 @@ export class User {
     @OneToOne(() => Photo)
     @JoinColumn()
     photo: Photo;
+
+    @ManyToMany(() => Group, groups => groups.groups)
+    @JoinTable()
+    groups: Group[];
 
 }

@@ -8,7 +8,7 @@ export default class UserRepository {
     }
 
     async read(): Promise<Array<User>> {
-        return await getManager().getRepository(User).find({ relations: ["photo"] });
+        return await getManager().getRepository(User).find({relations: ['photo', 'groups']});
     }
 
     async updade(user: User) {

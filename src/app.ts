@@ -1,6 +1,9 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import {createConnection} from "typeorm";
+import {ConnectionOptions, createConnection} from "typeorm";
+import {User} from "./entity/User";
+import {Group} from "./entity/Group";
+import {Photo} from "./entity/Photo";
 
 class App {
     public app: express.Application;
