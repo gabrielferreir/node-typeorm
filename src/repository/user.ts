@@ -1,4 +1,4 @@
-import {getManager, UpdateResult, DeleteResult} from "typeorm";
+import {getManager} from "typeorm";
 import {User} from "../entity/User";
 
 export default class UserRepository {
@@ -8,7 +8,7 @@ export default class UserRepository {
     }
 
     async read(): Promise<Array<User>> {
-        return await getManager().getRepository(User).find();
+        return await getManager().getRepository(User).find({ relations: ["photo"] });
     }
 
     async updade(user: User) {

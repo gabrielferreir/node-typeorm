@@ -1,13 +1,15 @@
-import {Entity, PrimaryGeneratedColumn, Column} from "typeorm";
+import {Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn} from "typeorm";
+import {Photo} from "./Photo";
 
 @Entity()
 export class User {
 
-    constructor(id, firstName, lastName, age) {
-    this.id = id;
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.age = age;
+    constructor(id, firstName, lastName, age, photo) {
+        this.id = id;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.age = age;
+        this.photo = photo;
     }
 
 
@@ -22,5 +24,9 @@ export class User {
 
     @Column()
     age: number;
+
+    @OneToOne(() => Photo)
+    @JoinColumn()
+    photo: Photo;
 
 }
