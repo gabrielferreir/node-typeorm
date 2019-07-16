@@ -11,8 +11,12 @@ export default class UserRepository {
         return await getManager().getRepository(User).find({relations: ['photo', 'groups']});
     }
 
+    async readOne(id: any): Promise<Array<User>> {
+        return await getManager().getRepository(User).findByIds(id, {relations: ['photo', 'groups']});
+    }
+
     async updade(user: User) {
-        return await getManager().getRepository(User).update(user.id, user);
+        return await getManager().getRepository(User).save(user);
     }
 
     async delete(id: any) {

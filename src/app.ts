@@ -1,9 +1,6 @@
 import * as express from 'express';
 import * as bodyParser from 'body-parser';
-import {ConnectionOptions, createConnection} from "typeorm";
-import {User} from "./entity/User";
-import {Group} from "./entity/Group";
-import {Photo} from "./entity/Photo";
+import {createConnection} from "typeorm";
 
 class App {
     public app: express.Application;
@@ -24,6 +21,21 @@ class App {
     private initializeControllers(controllers) {
         controllers.forEach((controller) => {
             this.app.use('/', controller.router);
+        });
+    }
+
+    public initializeFinalMiddlewares() {
+        this.app.use((err, req, res, next) => {
+            res.status(500).json({
+                message: 'We had a problem, try again later'
+            });
+        });
+
+        this.app.use('*', function (req, res) {
+            res.status(404).json({
+                path: req.originalUrl,
+                message: 'Not found'
+            });
         });
     }
 
