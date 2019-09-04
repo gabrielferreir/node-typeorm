@@ -1,5 +1,5 @@
 import * as express from 'express';
-import {Group} from "../entity/Group";
+import { Group } from "../entity/Group";
 import GroupRepository from "../repository/group";
 
 export default class GroupController {
@@ -17,19 +17,22 @@ export default class GroupController {
         this.router.delete(`${this.path}/:id`, this.delete);
     }
 
-    async create(req, res) {
+    async create(req, res, next) {
+        try {
+            const params = {
+                name: req.body.name,
+                level: req.body.level
+            };
 
-        const params = {
-            name: req.body.name,
-            level: req.body.level
-        };
+            const groupRepository = new GroupRepository();
 
-        const groupRepository = new GroupRepository();
+            const group = new Group(null, params.name, params.level);
+            await groupRepository.create(group);
 
-        const group = new Group(null, params.name, params.level);
-        await groupRepository.create(group);
-
-        res.status(201).jsonp(group);
+            res.status(201).jsonp(group);
+        } catch (e) {
+            next(e);
+        }
     }
 
     async read(req, res) {
